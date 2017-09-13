@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<settings>
+		<setting name="logImpl" value="log4j" />
+		<!-- 打开延时加载开关 -->
+		<setting name="lazyLoadingEnabled" value="false" />
+		<!-- 将积极加载关闭，成为按需加载 -->
+		<setting name="aggressiveLazyLoading" value="false" />
+
+		<!-- 开启二级缓存，默认是开启的，这里便于理解 -->
+		<setting name="cacheEnabled" value="true" />
+	</settings>
+	<typeAliases>
+		<!-- 针对单个别名的定义 <typeAlias type="com.ldg.mybatis.po.Users" alias="users"/> -->
+		<!--自动命名， 首字母大小写都可以 -->
+		<package name="com.gym.pojo" />
+	</typeAliases>
+	<!--类型处理器 完成jdbc类和java类型直接的转换，通常mybatis自己提供的处理器就满足了日常需要，不需要自定义 -->
+	<typeHandlers></typeHandlers>
+</configuration>

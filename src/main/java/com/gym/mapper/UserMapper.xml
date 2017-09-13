@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gym.mapper.UserMapper">
+	<select id="slectUserByName" resultType="User" parameterType="java.lang.String">
+		select id,userName,password from t_user where userName=#{userName}
+	</select>
+	<select id="slectRoleByName" resultType="java.lang.String" parameterType="java.lang.String">
+		select r.roleName from t_role r,t_user_role t,t_user u where u.id = t.userId and r.id = t.roleId  and u.userName = #{userName}
+	</select>
+</mapper>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" 
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://www.springframework.org/schema/aop  
+        http://www.springframework.org/schema/aop/spring-aop.xsd  
+        http://www.springframework.org/schema/beans  
+        http://www.springframework.org/schema/beans/spring-beans.xsd  
+        http://www.springframework.org/schema/context  
+        http://www.springframework.org/schema/context/spring-context.xsd  
+        http://www.springframework.org/schema/mvc  
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd  
+        http://www.springframework.org/schema/tx  
+        http://www.springframework.org/schema/tx/spring-tx.xsd">
+        <context:component-scan base-package="com.gym.service"></context:component-scan>
+       	<!-- Realm配置管理 -->
+       	<bean id="myRealm" class="com.gym.realm.ProsayRealm"></bean>
+       	<!-- 安全管理器 -->
+       	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+       		<property name="realm" ref="myRealm"></property>
+       	</bean>
+       	<!-- shiro过滤器的核心 -->
+       	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+       		<!-- 安全管理器 -->
+       		<property name="securityManager" ref="securityManager"></property>
+       		<!-- 身份认证失败，跳转那个路径 -->
+       		<property name="loginUrl" value="/index.jsp"></property>
+       		<property name="successUrl" value="/jsp/success.jsp"></property>
+       		<!-- 权限认证失败 -->
+       		<property name="unauthorizedUrl" value="/nopower.jsp"></property>
+       		<!-- shiro连接约束配置 -->
+       		<property name="filterChainDefinitions">
+       			<value>
+       				<!-- anon 匿名访问，不需要认证登录  authc需要认证-->
+       				/login* =anon <!-- 程序入口 -->
+       				/code =anon<!-- 验证码 -->
+       				/validate =anon<!-- 验证码 -->
+       				/vailLogin = anon
+       				/vailQrcode = anon
+       				<!-- admin/  都需要认证 -->
+       				/* = authc
+       			</value>
+       		</property>
+       	</bean>
+       	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"></bean>
+       	<bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+       		<property name="securityManager" ref="securityManager"></property>
+       	</bean>
+</beans>
